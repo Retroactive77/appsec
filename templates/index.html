@@ -1,0 +1,37 @@
+
+{% block title %}Retrieve Users{% endblock %}
+
+{% block content %}
+<h1 class="display-4">Retrieve Users</h1>
+<div>
+  {% if count == 0 %}
+  <p>There are no users.</p>
+  {% elif count == 1 %}
+  <p>There is 1 user.</p>
+  {% else %}
+  <p>There are {{ count }} users.</p>
+  {% endif %}
+</div>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Email Address</th>
+        <th>Password</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for user in users_list %}
+     <tr>
+        <td>{{ user.get_username() }}</td>
+        <td>{{ user.get_email() }}</td>
+        <td>{{ user.get_password() }}</td>
+        <td><a href="/updateUser/{{user.get_email()}}" class="btn btn-warning">Update</a></td>
+
+
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
