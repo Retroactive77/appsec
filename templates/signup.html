@@ -2,11 +2,7 @@
 {% block title %}Login Page{% endblock %}
 
 {% block body %}
-<style>
-    #logbtn{
-    display: none;
-    }
-</style>
+
 <style>
         .background-image {
         background-image: url("{{ url_for('static', filename='loginbg.jpg') }}");
@@ -16,18 +12,25 @@
 {% from "includes/_formHelper.html" import render_field %}
 
 <div class="container justify-content-center" style="height:80vh;">
-  <div class="row justify-content-center" style="position: relative; top:30%;">
+  <div class="row justify-content-center" style="position: relative; top:20%;">
         <div class="col-4 align-items-center border border-dark rounded bg-light">
                 <form method="POST" action="">
                     <div class="container">
                         <div class="row justify-content-center">
-                            <h2 style="margin-top: 15px;">Log in</h2>
+                            <h2 style="margin-top: 15px;">Sign Up</h2>
+                        </div>
+                        <div class="form-group">
+                            {{ render_field(form.name, class="form-control") }}
                         </div>
                         <div class="form-group">
                             {{ render_field(form.email, class="form-control") }}
+                            <span class="text-danger">{{ emailused }}</span>
                         </div>
                         <div class="form-group">
                             {{ render_field(form.password, class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            {{ render_field(form.repeatpassword, class="form-control") }}
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-auto">
@@ -35,13 +38,7 @@
                             </div>
 
                         </div>
-                        <div class="row justify-content-center">
-                                <div class="col justify-content-center text-center" style="margin-bottom:20px;">
-                                    <a href="/forgetpassword" >Forgot password?</a>
-                                </div>
-                                <div class="col justify-content-center text-center" style="margin-bottom:20px;">
-                                    <a href="/signup" >Sign Up</a>
-                                </div>
+
                             </div>
                     </div>
                 </form>
@@ -49,5 +46,3 @@
   </div>
 </div>
 {% endblock %}
-
-

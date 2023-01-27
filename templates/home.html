@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block logbtn %}
+
+    {% if session==True %}
+
+       <div class="btn btn-group ml-auto">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{name}}
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item form-inline my-2 my-lg-0" href="/logout">Log out</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="ml-auto">
+            <a href="/login" class="btn btn-outline-success my-2 my-sm-0" id="logbtn">Log in</a>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block body %}
+    <h1>testing</h1>
+    <p><a href="/signup">signup</a></p>
+    <p><a href="/login">login</a></p>
+    <p><a href="/index">data</a></p>
+    <p><a href="/delete">delete</a></p>
+{% endblock %}
