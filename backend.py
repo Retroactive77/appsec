@@ -17,14 +17,10 @@ class LoginUseraccount(Form):
 class ForgetUserpassword(Form):
     email=EmailField('',[validators.DataRequired()],render_kw={"placeholder": "Enter your email address"})
 
-    def validate_email(self,field):
-        if field.data not in list(user_dict.keys()):
-            raise ValidationError("Email is not registered. Please try again")
 
 
 class ResetUserpassword(Form):
-    password=PasswordField('enterpassword',[validators.DataRequired()])
-    repeatpassword=PasswordField('enterrepeatpassword',[validators.DataRequired(),validators.EqualTo('password',message='Passwords must match')],)
+    newpassword=PasswordField('',[validators.DataRequired()],render_kw={"placeholder": "Enter your new password"})
 
 
 class User:

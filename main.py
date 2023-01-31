@@ -16,18 +16,15 @@ Session(app)
 @app.route('/')
 def home():
     if session['loggedin']==True:
-        return redirect(url_for('homepage'))
+        return render_template('home.html',session=session['loggedin'],name=session['name'].get_username())
     return render_template('home.html')
 
-@app.route('/home')
-def homepage():
-    #admin diff homepage?
-    if session['loggedin']==False:
-        return redirect(url_for('home'))
-    return render_template('home.html',session=session['loggedin'],name=session['name'].get_username())
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    if session['loggedin']==True:
+        return redirect(url_for('userprofile'))
     create_account_form=backend.CreateUseraccount(request.form)
     if request.method == 'POST' and create_account_form.validate():
         db = shelve.open('users','c')
@@ -48,7 +45,7 @@ def signup():
             session['loggedin']=True
             db.close()
 
-        return redirect(url_for('data'))
+        return redirect(url_for('home'))
 
 
 
@@ -70,14 +67,14 @@ def login():
                 if login_account_form.password.data == user_dict[login_account_form.email.data].get_password():
                     session['name']=user_dict[login_account_form.email.data]
                     session['loggedin']=True
-                    return redirect(url_for('homepage'))
+                    return redirect(url_for('userprofile'))
 
                 else:
                     print("password wrong")
-                    #password wrong
+                    return render_template('login.html',form=login_account_form,perror="Password is incorrect.")
             else:
                 print("email dont exist")
-                #email dont exist
+                return render_template('login.html',form=login_account_form,merror="Email is not registered.")
 
         finally:
             db.close()
@@ -92,15 +89,10 @@ def logout():
     session['name']=None
     return redirect(url_for('home'))
 
-@app.route('/check')
-def index():
-    if 'loggedin' in session:
-        return 'User is authenticated'+session['name'].get_username()
-    else:
-        return 'User is not authenticated'
-
-@app.route('/forgetpassword')
+@app.route('/forgetpassword',methods=["GET","POST"])
 def forgetp():
+    if session['loggedin']==True:
+        return redirect(url_for('resetp'))
     forget_account_form=backend.ForgetUserpassword(request.form)
     if request.method == 'POST' and forget_account_form.validate():
          db = shelve.open('users','r')
@@ -110,58 +102,88 @@ def forgetp():
             print('empty shelve?')
          else:
             if forget_account_form.email.data in list(user_dict.keys()):
-                pass#send the email
+                user_dict[forget_account_form.email.data].set_password('123')
+                db['key']=user_dict
+                session['name']=user_dict[forget_account_form.email.data]
+                db.close()
+                return redirect(url_for('login'))
+            else:
+                db.close()
+                return render_template('forgotpassword.html',form=forget_account_form,wemail='Email is not registered')
     return render_template('forgotpassword.html',form=forget_account_form)
 
-@app.route('/resetpassword')
+@app.route('/resetpassword', methods=["GET","POST"])
 def resetp():
+    if session['loggedin']==False:
+        return redirect(url_for('forgetp'))
     reset_password_form=backend.ResetUserpassword(request.form)
     if request.method == 'POST' and reset_password_form.validate():
-        email=request.view_args['variable']
+
+        email=session['name'].get_email()
         db = shelve.open('users','c')
 
         user_dict=db['key']
         user=user_dict[email]
-        user.set_password(reset_password_form.password.data)
-
+        user.set_password(reset_password_form.newpassword.data)
+        user_dict[email]=user
+        db['key']=user_dict
         db.close()
+        session['name']=user
+
+        return redirect(url_for('userprofile'))
+
+
+    return render_template('resetpassword.html',form=reset_password_form,session=session['loggedin'],name=session['name'].get_username())
 
 
 
 @app.route('/index')
 def data():
+    session['index']=True
     users_list=backend.create_list()
     count=len(users_list)
+    if session['loggedin']==True:
+        return render_template('index.html',count=count,users_list=users_list,session=session['loggedin'],name=session['name'].get_username())
     return render_template('index.html',count=count,users_list=users_list)
 
 @app.route('/delete', methods=["GET","POST"])
 def deleteacc():
-    delete_account_form=backend.LoginUseraccount(request.form)
-    if request.method == 'POST' and delete_account_form.validate():
-        email=session['name'].get_email()
-        password=session['name'].get_password()
-        if email == delete_account_form.email.data and password == delete_account_form.password.data:
-            db = shelve.open('users','c')
+    email=session['name'].get_email()
 
-            user_dict=db['key']
-            user_dict.pop(delete_account_form.email.data)
+    db = shelve.open('users','c')
 
-            db['key']=user_dict
-            db.close()
+    user_dict=db['key']
+    user_dict.pop(email)
 
-            session['name']=None
-            return redirect(url_for('home'))
-        else:
-            print('details wrong')
-    return render_template('deleteaccount.html',form=delete_account_form)
-@app.route('/deleteuser')
-def admindeleteuser():
-    pass
-    #return render_template()
+    db['key']=user_dict
+    db.close()
+
+    session['name']=None
+    session['loggedin']=False
+
+    return redirect(url_for('home'))
+
+@app.route('/deleteuser/<user>')
+def admindeleteuser(user):
+
+    if session['name'].get_email()==user:
+        session['loggedin']=False
+        session['name']=None
+
+    db = shelve.open('users','c')
+    user_dict=db['key']
+    user_dict.pop(user)
+
+    db['key']=user_dict
+    db.close()
+
+    return redirect(url_for('data'))
 
 @app.route('/profile')
 def userprofile():
-    return render_template('profile.html',name=session['name'].get_username())
+    if session['loggedin']==False:
+        return redirect(url_for('home'))
+    return render_template('profile.html',session=session['loggedin'],name=session['name'].get_username(),email=session['name'].get_email(),pword=session['name'].get_password())
 
 if __name__ == '__main__':
     app.run()
