@@ -1,18 +1,45 @@
-import shelve
-from wtforms import Form, StringField, EmailField, PasswordField, validators,ValidationError
+from wtforms import Form, StringField, EmailField, PasswordField, validators
+import jwt
+import datetime
+
+def refresh_token():
+    if 'user' in session:
+        try:
+            if backend.token_has_expired(user['tokenid']):
+                user = auth.refresh(user['refreshToken'])
+        except:
+            session.clear()
+
+def token_has_expired(token):
+    try:
+        decoded_token = jwt.decode(token, verify=False)  # Decode the token without verification
+        expiration_timestamp = decoded_token['exp']  # Extract the expiration timestamp from the decoded token
+        current_timestamp = datetime.datetime.utcnow().timestamp()  # Get the current UTC timestamp
+
+        # Compare the current timestamp with the expiration timestamp
+        if current_timestamp >= expiration_timestamp:
+            return True  # Token has expired
+        else:
+            return False  # Token is still valid
+
+    except jwt.ExpiredSignatureError:
+        return True  # Token has expired
+
+    except jwt.InvalidTokenError:
+        return True  # Token is invalid or cannot be decoded
 
 
 class CreateUseraccount(Form):
     name=StringField('',[validators.DataRequired()],render_kw={"placeholder":"Enter your name"})
     email=EmailField('',[validators.DataRequired()],render_kw={"placeholder":"Enter your email"})
-    password=PasswordField('',[validators.DataRequired()],render_kw={"placeholder":"Enter your password"})
+    password=PasswordField('',[validators.DataRequired(),validators.Length(min=8)],render_kw={"placeholder":"Enter your password"})
     repeatpassword=PasswordField('',[validators.DataRequired(),validators.EqualTo('password',message='Passwords must match')],render_kw={"placeholder":"Re-enter password"})
 
 
 class LoginUseraccount(Form):
     email=EmailField('',[validators.DataRequired()],render_kw={"placeholder": "Enter your email address"})
     password=PasswordField('',[validators.DataRequired()],render_kw={"placeholder": "Enter your password"})
-
+    admin=PasswordField('',render_kw={"placeholder": "Admin Key (Optional)"})
 
 class ForgetUserpassword(Form):
     email=EmailField('',[validators.DataRequired()],render_kw={"placeholder": "Enter your email address"})
@@ -20,41 +47,7 @@ class ForgetUserpassword(Form):
 
 
 class ResetUserpassword(Form):
-    newpassword=PasswordField('',[validators.DataRequired()],render_kw={"placeholder": "Enter your new password"})
+    oldpassword=PasswordField('',[validators.DataRequired()],render_kw={"placeholder": "Enter your old password"})
+    newpassword=PasswordField('',[validators.DataRequired(),validators.Length(min=8)],render_kw={"placeholder": "Enter your new password"})
 
 
-class User:
-    def __init__(self,username,email,password):
-        self.__username=username
-        self.__email= email
-        self.__password=password
-
-    def get_username(self):
-        return self.__username
-
-    def get_email(self):
-        return self.__email
-
-    def get_password(self):
-        return self.__password
-
-    def set_username(self,username):
-        self.__username=username
-
-    def set_email(self,email):
-        self.__email=email
-
-    def set_password(self,password):
-        self.__password=password
-
-
-def create_list():
-    try:
-        db = shelve.open('users','r')
-    except:
-        print('error')
-    else:
-        user_dict=db['key']
-        listofusers=list(user_dict.values())
-        db.close()
-        return listofusers

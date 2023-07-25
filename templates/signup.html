@@ -1,17 +1,18 @@
-{% extends "base.html" %}
+
 {% block title %}Login Page{% endblock %}
 
 
 
-{% block body %}
-
-<style>
-        .background-image {
-        background-image: url("{{ url_for('static', filename='loginbg.jpg') }}");
-        background-size: cover;
-    }
-    </style>
-{% from "includes/_formHelper.html" import render_field %}
+{% block content %}
+{% macro render_field(field) %}
+  {{ field.label }}
+  {{ field(**kwargs) | safe }}
+  {% if field.errors %}
+   {% for error in field.errors %}
+    <div class="text-danger">{{ error }}</div>
+   {% endfor %}
+  {% endif %}
+ {% endmacro %}
 
 <div class="container justify-content-center" style="height:80vh;">
   <div class="row justify-content-center" style="position: relative; top:20%;">
@@ -30,6 +31,7 @@
                         </div>
                         <div class="form-group">
                             {{ render_field(form.password, class="form-control") }}
+                            <span class="text-danger">{{ passr }}</span>
                         </div>
                         <div class="form-group">
                             {{ render_field(form.repeatpassword, class="form-control") }}
@@ -38,7 +40,6 @@
                             <div class="col-auto">
                                 <button type="submit" value="Submit" style="margin-bottom: 20px;" class="btn btn-primary d-flex justify-content-center">Continue</button>
                             </div>
-
                         </div>
 
                             </div>
