@@ -1,41 +1,156 @@
-{% extends "base.html" %}
-{% block title %}Retrieve Users{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KarangGuni | Homepage</title>
+    <link rel="stylesheet" type="text/css" href="static/css_files/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="static/js_files/index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+</head>
 
-{% block logbtn %}
+<body>
 
-    {% if session==True %}
-
-       <div class="btn btn-group ml-auto">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{name}}
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item form-inline my-2 my-lg-0" href="/profile">User Profile</a>
-                <a class="dropdown-item form-inline my-2 my-lg-0" href="/logout">Log out</a>
-                <a class="dropdown-item form-inline my-2 my-lg-0" href="/resetpassword">Change Password</a>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="redemption-toast" class="toast bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body">
+                {{redemptionStatus}}
             </div>
         </div>
-    {% else %}
-        <div class="ml-auto">
-            <a href="/login" class="btn btn-outline-success my-2 my-sm-0" id="logbtn">Log in</a>
+    </div>
+
+    <nav class="navbar navbar-expand-lg bg-body-light">
+      <div class="container-fluid">
+        <img src="static/images/logo.png" style="height:38px; margin-right:20px;">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" href="/" style="margin-right:10px;">HOME</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" style="margin-right:10px;">THRIFT</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" style="margin-right:10px;">BLOG</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                POINTS
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="viewpoints">VIEW POINTS</a></li>
+                <li><a class="dropdown-item" href="redemption">ITEM REDEMPTION</a></li>
+                <li><a class="dropdown-item" href="redemptionhistory">REDEMPTION HISTORY</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <button class="btn btn-outline-success" type="submit" style="height:45px; width:100px;">LOG IN</button>
+          </form>
         </div>
-    {% endif %}
-
-{% endblock %}
-
-
-
-
-{% block content %}
-
-</div>
-<h1>Chatbot Admin</h1>
-<a href="chatbot_add">Add/Modify questions from Chatbot</a><br>
-<a href="chatbot_delete">Delete questions from Chatbot</a>
-
-<div class="accordion-body"><h1>Send promotional emails</h1>
-        <form method="POST">
-          <button type="submit" formaction="/send_emails" class="w-100 btn btn-success">Send Emails</button>
-        </form>
       </div>
-{% endblock %}
+    </nav>
+
+    <div class="imgtext1 fade-in">
+
+        <img src="static/images/homepg1.png" style="float:right; height:560px; margin-top:6%; margin-right:1%;">
+
+        <div class="div1">
+            <h1 style="font-weight:1000; font-size:50px; margin-bottom:5%; color:#3F6A10;">WHO ARE WE?</h1>
+            <p>
+                Established in 2023, Karang Guni Pte Ltd is a small business that aims to play our part in saving the environment. We provide the public with a platform to not only thrift clothes online but learn more about the environment too.
+            <br><br>
+                We have also pledged 5% of our sales to conservation of the environment.
+            </p>
+        </div>
+    </div>
+
+    <div class="imgtext2">
+
+        <img src="static/images/qnmark.png" style="float:left; height:500px; margin-top:4%;" class="reveal">
+
+        <div class="div2 reveal">
+            <h1 style="font-weight:1000; font-size:50px; margin-bottom:3%; color:#FFFFFF;">WHY SHOP<br>SECOND HAND?</h1>
+            <p>
+                Purchasing second-hand clothes is not only cost saving, it reduces waste too. 18.6 trillion tonnes of clothing are sent to landfills or incinerated every year. Buying second-hand clothing prolongs the lifespan of these garments.
+            <br><br>
+                Do visit our blog to learn more about environmental practices here!
+            <form action="#">
+            <button class="button1">
+                VIEW BLOG
+            </button>
+            </form>
+            </p>
+        </div>
+
+    </div>
+
+    <div class="imgtext3">
+
+        <img src="static/images/thriftshop.png" style="float:left; height:700px;">
+
+        <div class="div3">
+            <h1 class="reveal" style="font-weight:1000; font-size:50px; margin-bottom:4%; color:#3F6A10;">OUR SHOP</h1>
+            <p class="reveal" style="margin-bottom:6%;">
+               Our shops offers a wide variety of pre-loved, and even reworked clothes. You will be sure to find something suited<br>to your liking!
+            <br><br>
+                <a href="#">
+                    <button class="button2">
+                        SHOP NOW
+                    </button>
+                </a>
+            </p>
+
+            <h1 class="reveal" style="font-weight:1000; font-size:50px; margin-top:10%; margin-bottom:4%; color:#3F6A10;">REDEEM ITEMS</h1>
+            <p class="reveal" style="margin-bottom:6%;">
+               For every purchase made, you can accumulate points to redeem seasonal rewards!
+            <br><br>
+                <a href="redemption">
+                    <button class="button2">
+                        REDEEM
+                    </button>
+                </a>
+            </p>
+        </div>
+
+    </div>
+
+    <div class="bottom">
+        <div class="links">
+            <a href="/" class="bottomlink">Home</a>
+            <a href="#" class="bottomlink">Thrift</a>
+            <a href="#" class="bottomlink">Blog</a>
+            <a href="#" class="bottomlink">Points</a>
+            <hr>
+            <p>© 2023 Karang Guni Pte Ltd</p>
+        </div>
+    </div>
+
+    <script>
+        {% if redemptionStatus %}
+            var toastElement = document.getElementById("redemption-toast");
+            var toastBody = toastElement.querySelector(".toast-body");
+
+            {% if redemptionStatus == "Redemption successful!" %}
+                toastElement.classList.remove("bg-danger");
+                toastElement.classList.add("bg-success");
+                toastBody.textContent = "{{ redemptionStatus }}";
+            {% else %}
+                toastElement.classList.remove("bg-success");
+                toastElement.classList.add("bg-danger");
+                toastBody.textContent = "{{ redemptionStatus }}";
+            {% endif %}
+
+            toastElement.classList.add("show");
+
+            setTimeout(function() {
+                toastElement.classList.add("fade-out");
+            }, 5000);
+        {% endif %}
+    </script>
+
+</body>
+</html>
