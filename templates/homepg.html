@@ -11,6 +11,8 @@
 <!--<button><a href="/logout">logout</a></button>-->
 <!--</body>-->
 <!--</html>-->
+<html>
+<body>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 <section class="main">
 	<div class="layer">
@@ -18,7 +20,7 @@
 
 		<div class="bottom-grid">
 			<div class="logo">
-				<h1> <a href="index.html"><span class="fa fa-key"></span> Key</a></h1>
+				<h1> <a href="index.html"><span class="logo"></span><img src="{{ url_for('static', filename='images/logo.png') }}" alt=""></a></h1>
 			</div>
 			<div class="links">
 				<ul class="links-unordered-list">
@@ -39,7 +41,7 @@
 		</div>
 		<div class="content-w3ls">
 			<div class="text-center icon">
-				<span class="fa fa-html5"></span>
+				<span class="logo"><img src="{{ url_for('static', filename='images/logo.png') }}" alt=""></span>
 			</div>
 			<!---728x90--->
 			<div class="content-bottom">
@@ -98,11 +100,6 @@
 						<a href="#" class="">Terms of Use</a>
 					</li>
 				</ul>
-			</div>
-			<div class="copyright">
-				<p>© 2019 Key. All rights reserved | Design by
-					<a href="https://w3layouts.com">W3layouts</a>
-				</p>
 			</div>
 		</div>
     </div>

@@ -3,7 +3,6 @@ from flask import Flask, render_template, request,redirect,url_for,session,make_
 from flask_session import Session
 import backend
 import os,ssl
-import shelve, random,string
 
 import firebase_admin
 from firebase_admin import credentials,db,firestore,auth
