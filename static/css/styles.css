@@ -265,6 +265,9 @@ ul.links-unordered-list li.active a {
     padding: 5px 20px;
     color: #fff;
 }
+.fa fa-user,fa-lock{
+    padding-top:5px;
+}
 .icon span.fa{
     font-size: 60px;
     color: #eee;
