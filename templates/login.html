@@ -1,53 +1,98 @@
+<html>
+<body>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+<section class="main">
+	<div class="layer">
+		<!---728x90--->
 
-{% macro render_field(field) %}
-  {{ field.label }}
-  {{ field(**kwargs) | safe }}
-  {% if field.errors %}
-   {% for error in field.errors %}
-    <div class="text-danger">{{ error }}</div>
-   {% endfor %}
-  {% endif %}
- {% endmacro %}
+		<div class="bottom-grid">
+			<div class="logo">
+				<h1> <a href="index.html"><span class="logo"></span><img src="{{ url_for('static', filename='images/logo.png') }}" alt=""></a></h1>
+			</div>
+			<div class="links">
+				<ul class="links-unordered-list">
+					<li class="active">
+						<a href="#" class="">Login</a>
+					</li>
+					<li class="">
+						<a href="#" class="">About Us</a>
+					</li>
+					<li class="">
+						<a href="#" class="">Register</a>
+					</li>
+					<li class="">
+						<a href="#" class="">Contact</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="content-w3ls">
+			<div class="text-center icon">
+				<span class="logo"><img src="{{ url_for('static', filename='images/logo.png') }}" alt=""></span>
+			</div>
+			<!---728x90--->
+			<div class="content-bottom">
+				<form action="#" method="post">
+					<div class="field-group">
+						<span class="fa fa-user" aria-hidden="true"></span>
+						<div class="wthree-field">
+							<input name="email" id="text1" type="text" value="" placeholder="Email Address" required>
+						</div>
+					</div>
+					<div class="field-group">
+						<span class="fa fa-lock" aria-hidden="true"></span>
+						<div class="wthree-field">
+							<input name="password" id="myInput" type="Password" placeholder="Password">
+						</div>
+					</div>
+					<div class="wthree-field">
+						<button type="submit" class="btn">Get Started</button>
+					</div>
+					<ul class="list-login">
+						<li class="switch-agileits">
+							<label class="switch">
+								<input type="checkbox">
+								<span class="slider round"></span>
+								keep Logged in
+							</label>
+						</li>
+						<li>
+							<a href="#" class="text-right">forgot password?</a>
+						</li>
+						<li class="clearfix"></li>
+					</ul>
+					<ul class="list-login-bottom">
+						<li class="">
+							<a href="#" class="">Create Account</a>
+						</li>
+						<li class="">
+							<a href="#" class="text-right">Need Help?</a>
+						</li>
+						<li class="clearfix"></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+		<!---728x90--->
+		<div class="bottom-grid1">
+			<div class="links">
+				<ul class="links-unordered-list">
+					<li class="">
+						<a href="#" class="">About Us</a>
+					</li>
+					<li class="">
+						<a href="#" class="">Privacy Policy</a>
+					</li>
+					<li class="">
+						<a href="#" class="">Terms of Use</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+    </div>
+</section>
 
-<div class="container justify-content-center" style="height:80vh;">
-  <div class="row justify-content-center" style="position: relative; top:20%;">
-        <div class="col-4 align-items-center border border-dark rounded bg-light">
-                <form method="POST" action="">
-                    <div class="container">
-                        <div class="row justify-content-center text-align-center">
-                            <h2 style="margin-top: 15px;">Log in</h2>
-                        </div>
-                        <div class="form-group">
-                            {{ render_field(form.email, class="form-control") }}
-                            <span class="text-danger">{{merror}}</span>
-                        </div>
-                        <div class="form-group">
-                            {{ render_field(form.password, class="form-control") }}
-                            <span class="text-danger">{{perror}}</span>
-                        </div>
-                        <div class="form-group">
-                            {{ render_field(form.admin, class="form-control") }}
-                            <span class="text-danger">{{aerror}}</span>
-                        </div>
-                        <div class="row justify-content-center">
-                            <div class="col-auto">
-                                <button type="submit" value="Submit" style="margin-bottom: 20px;" class="btn btn-primary d-flex justify-content-center">Continue</button>
-                            </div>
 
-                        </div>
-                        <div class="row justify-content-center">
-                                <div class="col justify-content-center text-center" style="margin-bottom:20px;">
-                                    <a href="/forgetpassword" >Forgot password?</a>
-                                </div>
-                                <div class="col justify-content-center text-center" style="margin-bottom:20px;">
-                                    <a href="/signup" >Sign Up</a>
-                                </div>
-                            </div>
-                    </div>
-                </form>
-        </div>
-  </div>
-</div>
-
-
-
+</body>
+<!-- //Body -->
+</html>
