@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit&display=swap');
+@font-face{
+    font-family: 'Outfit', sans-serif;
+}
+
+body{
+font-family: "Outfit";
+background-color:
+}
+
+div.section1{
+    height: 800px;
+    align-content: center;
+    margin-top: auto;
+    padding: auto;
+    padding-top: 50px;
+}
+
+div.section1 p#para1{
+    text-align: left;
+}
+
+div.section1 p#para2{
+    text-align: right;
+}
+
+div.section1 img{
+    width: 300px;
+    height: 300px;
+}
+
+div.section2{
+    height: 750px;
+    background-color: #F0CCA2;
+}
+
+div.section2 .parent{
+    display: flex;
+}
+
+div.section2 img{
+    height: 200px;
+}
+
+div.section2 button{
+    border: none;
+    background-color: inherit;
+    padding: 14px 28px;
+    cursor: pointer;
+}
+
+div.section2 button:hover{
+    background-color: #8FAC6A;
+    border-radius: 8px;
+}
+
+div.section3{
+    height: 400px;
+    padding-top: 20px;
+}
+
+div.section3 img{
+    margin-top: 20px;
+    width: 500px;
+    height: 150px;}
+
+div.intro{
+    font-size: 19px;
+    color: #;
+    text-align: center;
+    margin: auto;
+    margin-top: 30px;
+    width: 60%;
+    padding: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 20px;
+}
+
+    div.blog{
+        height: 33%;
+        font-size: 17px;
+        text-align: center;
+        width: 60%;
+        margin: auto;
+        padding-top: 20px;
+    }
+
+div#preview{
+    background-color: white;
+    padding: 20px;
+    width: 30%;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 15px;
+}
+
+div.feedback{
+    height: 33%;
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+div.contactus{
+    text-align: center;
+}
+
+textarea{
+    resize: none;
+}
+
+form{
+    text-align: left;
+}
+div.emailHelp{
+    margin-top: 0;
+}
+
+div.namehelp{
+    margin-top: 0;
+}
+
+input{
+    width: 80%;
+}
+
+input.submit{
+    content-align: center;
+}

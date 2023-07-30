@@ -1,0 +1,44 @@
+body{
+}
+
+div div#mainpost{
+    background-color: #F0CCA2;
+    text-align: center;
+    width: 30%;
+    height: 300px;
+    border-radius: 15px;
+    margin-left: 16%;
+    margin-right: 1%;
+    padding: 20px;
+}
+
+div div#subpost{
+    background-color: #8FAC6A;
+    text-align: center;
+    width: 30%;
+    height: 300px;
+    border-radius: 15px;
+    margin-left: 1%;
+    margin-right: 16%;
+    padding: 20px;
+}
+
+div#container1{
+    background-color: #3F6A10;
+    padding: 20px;
+}
+
+div#container2{
+    text-align: center;
+    margin-top: 20px;
+    background-color: #d6d6d6;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+div.container{
+    margin-bottom: 20px;
+}

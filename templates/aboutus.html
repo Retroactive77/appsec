@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/style1.css">
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js"></script>
+    <title>About Us | KG</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-body-light">
+      <div class="container-fluid">
+        <img src="static/images/logo.png" style="height:38px; margin-right:20px;">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" href="/" style="margin-right:10px;">HOME</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" style="margin-right:10px;">THRIFT</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" style="margin-right:10px;">BLOG</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                POINTS
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="viewpoints">VIEW POINTS</a></li>
+                <li><a class="dropdown-item" href="redemption">ITEM REDEMPTION</a></li>
+                <li><a class="dropdown-item" href="#">TRANSACTION HISTORY</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <button class="btn btn-outline-success" type="submit" style="height:45px; width:100px;">LOG IN</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+<div class="section1">
+    <div class="intro">
+        <h1 style="">WHAT WE DO</h1>
+        <br>
+        <p id="para1">At Karang Guni Pte Ltd, we aim to help the environment by recycling and reusing items that would otherwise be thrown away.
+             We also aim to help the community by providing jobs to those who need it, and by providing a platform for people to sell their items.
+        <br><br>
+        </p>
+        <p id="para2">We have pledged 5% of our total sales towards conservations of the Earth, as well as helping those in third-world countries
+        by donating to reputable charities. Join us today on our journey to save and protect the Earth!</p>
+        <img src="static/images/img.png">
+    </div>
+</div>
+<div class="section2">
+    <div class="blog">
+        <h3>What about you?</h3>
+        <p>We'd like to know more about you. What have you done to save the environment?<br>
+        Here are some of the things that our members have done. Feel free to add onto the list of things!<br>
+        You may even stand a chance to win something special from us!</p>
+        <div class="parent">
+            <div id="preview">
+                <img src="static/images/img_1.png">
+                <h5>Lee Jia Yi</h5>
+                <p>Recently, I have started thrifting and I found that thrifting clothes actually make me much happier! I've found a lot of clothes that
+                actually suit my style, and I encourage others to start thrifting as well! Who knows what you will find?</p>
+            </div>
+            <div id="preview">
+                <img src="static/images/img_3.png">
+                <h5>Eugene Franster</h5>
+                <p>My family and I have recently started doing an earth hour of our own everyday, turning off all electronics and lights
+                at certain times of the day to save energy. We use that hour to bond, making us closer than before.</p>
+            </div>
+            <div id="preview">
+                <img src="static/images/img_4.png">
+                <h5>Tay Ah Muay</h5>
+                <p>I've been going around doing conservation talks about the Earth for my local community club, and I find that
+                it's very fruitful to do so, spreading my knowledge to the other elderly so that they can also do their part.</p>
+            </div>
+        </div>
+        <br>
+        <button onclick="location.href='/blog'">Click here to arrive at our blog!</button>
+    </div>
+</div>
+<div class="section3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="feedback">
+                    <h4>Feedback/Questions</h4>
+                    <p>Do you have any feedback for us, or have any questions about anything? Feel free to type it in the form below!<br>We
+                    will get back to you as soon as possible!</p>
+                    <form id="form22222" method="POST" action="/aboutus">
+                        <label for="name">Name</label><br>
+                        <input type="text" class="form-control" id="name" name="name" required oninvalid="this.setCustomValidity('Please enter a name. What else are we going to call you?')"  oninput="setCustomValidity('')">
+                        <div id="nameHelp" class="form-text"><i>We'll address you using this!</i></div><br>
+                        <label for="email">Email</label><br>
+                        <input type="email" class="form-control" id="email" name="email" required oninvalid="this.setCustomValidity('Please enter a valid email address. We would never be able to get back to you otherwise!')"  oninput="setCustomValidity('')">
+                        <div id="emailHelp" class="form-text"><i>We'll never share your email with anyone else.</i></div><br>
+                        <label for="feedback">Feedback</label><br>
+                        <div id="form-group"><textarea class="form-control" id="feedback" name="feedback" required oninvalid="this.setCustomValidity('Please enter something inside. We can't respond to nothing!')"  oninput="setCustomValidity('')"></textarea></div>
+                        <br>
+                        <input class="btn btn-primary form-control" type="submit" value="Submit">
+                    </form>
+                    {% if message %}
+                    <div id="message">{{ message }}</div>
+                    {% endif %}
+                    <img src="static/images/img_2.png">
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="contactus">
+                    <h4>Contact Us!</h4>
+                    <p>Want to contact us directly? Here are our details!</p>
+                    <p>Email: hello@karangguni.com<br>
+                    Phone: +65 6123 4567<br>
+                    Address: 1 Thong Soon Avenue, Singapore 787431 | Opening Hours: 12pm - 8pm</p>
+                    <p>Our email is always open! If you have any desire to collaborate with us, or just anything at all,
+                    feel free to email us! </p>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.632352926104!2d103.8162406747255!3d1.3970379614228687!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da11548050c98f%3A0x69a842f6076a8106!2sSpringleaf%20Prata%20Place%20-%20Springleaf%20Garden%20(Thongsoon)!5e0!3m2!1sen!2ssg!4v1685346623469!5m2!1sen!2ssg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+</body>
+</html>
