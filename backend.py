@@ -18,15 +18,35 @@ def token_has_expired(token):
 
         # Compare the current timestamp with the expiration timestamp
         if current_timestamp >= expiration_timestamp:
+            print('expired')
             return True  # Token has expired
         else:
             return False  # Token is still valid
 
     except jwt.ExpiredSignatureError:
+        print('expired')
         return True  # Token has expired
 
     except jwt.InvalidTokenError:
+        print('invalid')
         return True  # Token is invalid or cannot be decoded
+
+def check_admin():
+    try:
+        # Verify the ID token to get the user's custom claims
+        decoded_token = auth.verify_id_token(id_token)
+        custom_claims = decoded_token.get('admin')  # Access the 'admin' custom claim
+
+        if custom_claims is not None and custom_claims is True:
+            # User has 'admin': True custom claim, allow access to protected route
+            return jsonify({'message': 'Access granted to admin'})
+
+        # User does not have 'admin': True custom claim, deny access
+        return jsonify({'message': 'Access denied'}), 403
+
+    except auth.InvalidIdTokenError:
+        # Invalid ID token, deny access
+        return jsonify({'message': 'Invalid ID token'}), 401
 
 
 class CreateUseraccount(Form):

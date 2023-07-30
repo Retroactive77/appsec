@@ -91,7 +91,7 @@ video {
     padding: 0;
     border: 0;
     font-size: 100%;
-    font: https://fonts.google.com/specimen/Outfit?category=Sans+Serif;
+    font-family: 'Outfit', sans-serif;
     vertical-align: baseline;
 }
 
@@ -214,6 +214,7 @@ nav.horizontal ul li {
 
 img {
     max-width: 100%;
+    width:50%
 }
 
 /*--end reset--*/
@@ -235,7 +236,7 @@ body a:hover {
 /*/////////////// GLOBAL STYLES ////////////////////*/
 
 body {
-	font-family: 'Mukta', sans-serif;
+	font-family: 'Outfit', sans-serif;
 }
 .main {
     background: url(../images/bg.jpg) no-repeat center;
@@ -301,6 +302,7 @@ ul.list-login li:nth-child(2) {
 }
 ul.list-login-bottom li:nth-child(2) {
     float: right;
+    font-size:70%
 }
 
 .field-group label {
@@ -399,8 +401,10 @@ form .field-group span {
 
 ul.list-login {
     margin-top: 1.5em;
-    margin-bottom: 1em;
 }
+ul.list-login-bottom {
+    margin-top: 1.5em;
+    margin bottom: 1em;}
 
 form .field-group .wthree-field {
     flex: 4 50%;
@@ -501,8 +505,8 @@ label.switch {
     text-transform: capitalize;
 }
 ul.list-login-bottom li:nth-child(1) a,ul.list-login-bottom li:nth-child(2) a {
-    font-size: 15px;
-    letter-spacing: 2px;
+    font-size: 13px;
+    letter-spacing: 3px;
     font-weight: normal;
     text-transform: uppercase;
     color: #fff !important;
