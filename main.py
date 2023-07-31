@@ -4,9 +4,6 @@ from flask_session import Session
 import backend
 import os,ssl
 
-import firebase_admin
-from firebase_admin import credentials,db,firestore,auth
-
 import pyrebase
 
 
@@ -14,14 +11,11 @@ config = {
   "apiKey": "AIzaSyD0SUfjgpcMolK-chcXdqfLMGvumxfTTPU",
   "authDomain": "appsec-20fc0.firebaseapp.com",
   "databaseURL": "https://appsec-20fc0-default-rtdb.asia-southeast1.firebasedatabase.app/",
-  "storageBucket": "appsec-20fc0.appspot.com"
+  "storageBucket": "appsec-20fc0.appspot.com",
+  "serviceAccount": "certificates/appsec-20fc0-firebase-adminsdk-nrz0d-6ddcefb057.json"
 }
 
 firebase = pyrebase.initialize_app(config)
-
-cred = credentials.Certificate("certificates/appsec-20fc0-firebase-adminsdk-nrz0d-6ddcefb057.json")
-firebase_admin.initialize_app(cred)
-db = firestore.client()
 
 
 app = Flask(__name__,static_folder='static')
@@ -39,7 +33,8 @@ app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 Session(app)
 
-pauth=firebase.auth()
+auth=firebase.auth()
+db = firebase.database()
 
 @app.after_request
 def add_security_headers(response):
@@ -51,7 +46,10 @@ def add_security_headers(response):
 
 @app.route('/')
 def home():
-
+    data = {
+        "test" : "test"
+    }
+    db.child('users').set(data)
     return render_template('homepg.html')
 
 
@@ -67,43 +65,42 @@ def signup():
 
         print(name,email,password)
 
-        try:
-            pauth.create_user_with_email_and_password(email, password)
-            pauth.send_email_verification(email)
-        except pyrebase.pyrebase.HTTPError as e:
-            error_message = e.args[1]['error']['message']
-            if error_message == 'EMAIL_EXISTS':
-                print("Email address is already in use.")
-            elif error_message == 'INVALID_EMAIL':
-                print("Invalid email address format.")
-            elif error_message == 'WEAK_PASSWORD':
-                print("Weak password. It should be at least 6 characters long.")
-            elif error_message == 'INVALID_PHONE_NUMBER':
-                print("Invalid phone number format.")
-            elif error_message == 'USER_DISABLED':
-                print("The user account has been disabled by an administrator.")
-            elif error_message == 'TOO_MANY_ATTEMPTS_TRY_LATER':
-                print("Too many sign-up attempts. Please try again later.")
-            else:
-                print("An unknown error occurred:", error_message)
 
-        else:
-            db = firebase.database()
-            data = {
-                "name":name,
-                "email":email
-            }
+        user = auth.create_user_with_email_and_password(email, password)
+        # except pyrebase.pyrebase.HTTPError as e:
+        #     error_message = e.args[1]['error']['message']
+        #     if error_message == 'EMAIL_EXISTS':
+        #         print("Email address is already in use.")
+        #     elif error_message == 'INVALID_EMAIL':
+        #         print("Invalid email address format.")
+        #     elif error_message == 'WEAK_PASSWORD':
+        #         print("Weak password. It should be at least 6 characters long.")
+        #     elif error_message == 'INVALID_PHONE_NUMBER':
+        #         print("Invalid phone number format.")
+        #     elif error_message == 'USER_DISABLED':
+        #         print("The user account has been disabled by an administrator.")
+        #     elif error_message == 'TOO_MANY_ATTEMPTS_TRY_LATER':
+        #         print("Too many sign-up attempts. Please try again later.")
+        #     else:
+        #         print("An unknown error occurred:", error_message)
 
-            decoded_token = auth.verify_id_token(user['idToken'])
-            uid = decoded_token['uid']
-            results = db.child("users").child(uid).push(data,user['idToken'])
+        #else:
+        auth.send_email_verification(user['idToken'])
 
-            session['name']=name
-            session['email']= email
+        data = {
+            "name":name,
+            "email":email
+        }
 
-            print('something')
+        uid = user['localId']
+        results = db.child("users").child(uid).set(data)
 
-        return redirect(url_for('home'))
+        session['name']=name
+        session['email']= email
+
+        print('something')
+
+    return redirect(url_for('home'))
 
 
 
@@ -117,7 +114,7 @@ def login():
         password= request.form.get('password')
 
         try:
-            user = pauth.sign_in_with_email_and_password(email, password)
+            user = auth.sign_in_with_email_and_password(email, password)
         except:
             print('wrong credentials')
         else:
@@ -130,7 +127,7 @@ def login():
             session['email'] = info['email']
 
 
-            print(pauth.get_account_info(user['idToken']))
+            print(auth.get_account_info(user['idToken']))
             return redirect(url_for('home'))
     return render_template('login.html')
 
@@ -145,7 +142,7 @@ def forgetp():
     forget_account_form=backend.ForgetUserpassword(request.form)
     if request.method == 'POST' and forget_account_form.validate():
         email=forget_account_form.email.data
-        pauth.send_password_reset_email(email)
+        auth.send_password_reset_email(email)
     return render_template('forgotpassword.html',form=forget_account_form)
 
 @app.route('/changepassword', methods=["GET","POST"])
@@ -155,7 +152,7 @@ def resetp():
     reset_password_form=backend.ResetUserpassword(request.form)
     if request.method == 'POST' and reset_password_form.validate():
         try:
-            pauth.sign_in_with_email_and_password(session['user'], reset_password_form.oldpassword.data)
+            auth.sign_in_with_email_and_password(session['user'], reset_password_form.oldpassword.data)
         except KeyError:
             return render_template('resetpassword.html',form=reset_password_form,passw="Password(s) do not meet requirements.")
 
@@ -205,7 +202,7 @@ def adminlogin():
         password=login_account_form.password.data
         admin=''
         try:
-            user = pauth.sign_in_with_email_and_password(email, password)
+            user = auth.sign_in_with_email_and_password(email, password)
         except:
             print('wrong credentials')
         else:
@@ -214,7 +211,7 @@ def adminlogin():
             session['user']=email
 
 
-            print(pauth.get_account_info(user['idToken']))
+            print(auth.get_account_info(user['idToken']))
             return redirect(url_for('home'))
     return render_template('login.html',form=login_account_form)
 
